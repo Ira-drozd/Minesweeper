@@ -1,248 +1,165 @@
-function createGrid(row, col) {
-
-
-    let array = [];
+function createGrid(row, col, bomb) {
+    let grid = [];
     for (let i = 0; i < row; i++) {
-        array[i] = [];
+        grid[i] = [];
         for (let j = 0; j < col; j++) {
-            array[i][j] = 0;
 
+            grid[i][j] = 0;
 
-            /*var div = document.createElement('div');
-                     div.className = 'cell';
-                     array[i][j] = div;
-                   div.innerHTML = (3 * i) + j + 1;*/
-
-            // array[i][j]= 0;
-            //Math.floor(Math.random() * Math.floor(2));
         }
     }
 
-    //diagonal ramdom
-
-
-    for (let i = 0; i < array.length; i++) {
-        for (let j = 0; j < array.length; j++) {
-            //  array[i][j]= 0;
-
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid.length; j++) {
             if (i == j) {
-                array[i][j] = 'bomb';
-                array.sort(function () {
+                grid[i][j] = 'bomb';
+                grid.sort(function () {
                     return Math.random() - 0.5;
                 });
             }
+
         }
     }
 
+    generateHelp(grid);
+    printGrid(grid);
+    console.log(grid);
+    return grid;
+
+}
+
+function generateHelp(grid) {
 
     //right
-    for (let i = 0; i < array.length; i++) {
-        for (let j = 0; j < array.length; j++) {
-            if (array[i][j] == 'bomb') {
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid.length; j++) {
+            if (grid[i][j] == 'bomb') {
                 let counter;
                 //right
-                if (j + 1 < array.length) { //&& j-1>-1 && i-1>-1 && i + 1<array.length
+                if (j + 1 < grid.length) { //&& j-1>-1 && i-1>-1 && i + 1<grid.length
 
-                    counter = array[i][j + 1];
-                    if (array[i][j + 1] == 'bomb') {
-                        array[i][j + 1] = counter;
+                    counter = grid[i][j + 1];
+                    if (grid[i][j + 1] == 'bomb') {
+                        grid[i][j + 1] = counter;
                     } else {
-                        array[i][j + 1] = counter + 1;
+                        grid[i][j + 1] = counter + 1;
+                    }
+                    //right-top
+                    if (i - 1 > -1) {
+                        counter = grid[i - 1][j + 1];
+                        if (grid[i][j] == 'bomb') {
+
+                            if (grid[i - 1][j + 1] == 'bomb') {
+                                grid[i - 1][j + 1] = counter;
+                            } else {
+                                grid[i - 1][j + 1] = counter + 1;
+                            }
+                        }
+                    }
+                    //right-bottom
+                    if (i + 1 < grid.length) {
+                        counter = grid[i + 1][j + 1];
+                        if (grid[i][j] == 'bomb') {
+
+                            if (grid[i + 1][j + 1] == 'bomb') {
+                                grid[i + 1][j + 1] = counter;
+                            } else {
+                                grid[i + 1][j + 1] = counter + 1;
+                            }
+                        }
                     }
                 }
                 //left
                 if (j - 1 > -1) {
 
-                    counter = array[i][j - 1];
-                    if (array[i][j - 1] == 'bomb') {
-                        array[i][j - 1] = counter;
+                    counter = grid[i][j - 1];
+                    if (grid[i][j - 1] == 'bomb') {
+                        grid[i][j - 1] = counter;
                     } else {
-                        array[i][j - 1] = counter + 1;
+                        grid[i][j - 1] = counter + 1;
+                    }
+                    //left-top
+                    if (i - 1 > -1) {
+                        counter = grid[i - 1][j - 1];
+                        if (grid[i][j] == 'bomb') {
+
+                            if (grid[i - 1][j - 1] == 'bomb') {
+                                grid[i - 1][j - 1] = counter;
+                            } else {
+                                grid[i - 1][j - 1] = counter + 1;
+                            }
+                        }
+                    }
+                    //left-bottom
+                    if (i + 1 < grid.length) {
+                        counter = grid[i + 1][j - 1];
+                        if (grid[i][j] == 'bomb') {
+
+                            if (grid[i + 1][j - 1] == 'bomb') {
+                                grid[i + 1][j - 1] = counter;
+                            } else {
+                                grid[i + 1][j - 1] = counter + 1;
+                            }
+                        }
                     }
                 }
                 //top
                 if (i - 1 > -1) {
-                    counter = array[i - 1][j];
-                    if (array[i][j] == 'bomb') {
+                    counter = grid[i - 1][j];
+                    if (grid[i][j] == 'bomb') {
 
-                        if (array[i - 1][j] == 'bomb') {
-                            array[i - 1][j] = counter;
+                        if (grid[i - 1][j] == 'bomb') {
+                            grid[i - 1][j] = counter;
                         } else {
-                            array[i - 1][j] = counter + 1;
+                            grid[i - 1][j] = counter + 1;
                         }
 
                     }
                 }
                 //bottom
-                if (i + 1 < array.length) {
-                    counter = array[i + 1][j];
-                    if (array[i][j] == 'bomb') {
+                if (i + 1 < grid.length) {
+                    counter = grid[i + 1][j];
+                    if (grid[i][j] == 'bomb') {
 
-                        if (array[i + 1][j] == 'bomb') {
-                            array[i + 1][j] = counter;
+                        if (grid[i + 1][j] == 'bomb') {
+                            grid[i + 1][j] = counter;
                         } else {
-                            array[i + 1][j] = counter + 1;
+                            grid[i + 1][j] = counter + 1;
                         }
                     }
                 }
-//
+
             }
         }
     }
+    return grid;
+}
 
-        /*
-          //right
-         for (let i = 0; i < array.length; i++) {
-             for (let j = 0; j < array.length - 1; j++) {
-                 let counter = array[i][j + 1];
-                 if (array[i][j] == 'bomb') {
+function printGrid(grid) {
+    const printgrid = document.querySelector('.grid');
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid.length; j++) {
 
-                     if (array[i][j + 1] == 'bomb') {
-                         array[i][j + 1] = counter;
-                     } else {
-                         array[i][j + 1] = counter + 1;
-                     }
-                 }
-             }
-         }
-        //left
-         for (let i = 0; i < array.length; i++) {
-             for (let j = 1; j < array.length; j++) {
-                 let counter = array[i][j - 1];
-                 if (array[i][j] == 'bomb') {
+            const divElem = document.createElement('div');
+            divElem.className = 'elem';
+            divElem.innerHTML = grid[i][j];
+            printgrid.append(divElem);
 
-                     if (array[i][j - 1] == 'bomb') {
-                         array[i][j - 1] = counter;
-                     } else {
-                         array[i][j - 1] = counter + 1;
-                     }
-                 }
-             }
-         }
-
-         //top
-         for (let i = 1; i < array.length; i++) {
-             for (let j = 0; j < array.length; j++) {
-                 let counter = array[i - 1][j];
-                 if (array[i][j] == 'bomb') {
-
-                     if (array[i - 1][j] == 'bomb') {
-                         array[i - 1][j] = counter;
-                     } else {
-                         array[i - 1][j] = counter + 1;
-                     }
-                 }
-             }
-         }
-
-         //bottom
-         for (let i = 0; i < array.length - 1; i++) {
-             for (let j = 0; j < array.length; j++) {
-                 let counter = array[i + 1][j];
-                 if (array[i][j] == 'bomb') {
-
-                     if (array[i + 1][j] == 'bomb') {
-                         array[i + 1][j] = counter;
-                     } else {
-                         array[i + 1][j] = counter + 1;
-                     }
-                 }
-             }
-         }
-
-         //right-top
-         for (let i = 1; i < array.length; i++) {
-             for (let j = 0; j < array.length - 1; j++) {
-                 let counter = array[i - 1][j + 1];
-                 if (array[i][j] == 'bomb') {
-
-                     if (array[i - 1][j + 1] == 'bomb') {
-                         array[i - 1][j + 1] = counter;
-                     } else {
-                         array[i - 1][j + 1] = counter + 1;
-                     }
-                 }
-             }
-         }
-
-         //left-top
-         for (let i = 1; i < array.length; i++) {
-             for (let j = 1; j < array.length; j++) {
-                 let counter = array[i - 1][j - 1];
-                 if (array[i][j] == 'bomb') {
-
-                     if (array[i - 1][j - 1] == 'bomb') {
-                         array[i - 1][j - 1] = counter;
-                     } else {
-                         array[i - 1][j - 1] = counter + 1;
-                     }
-                 }
-             }
-         }
-
-         //right-bottom
-         for (let i = 0; i < array.length - 1; i++) {
-             for (let j = 0; j < array.length - 1; j++) {
-                 let counter = array[i + 1][j + 1];
-                 if (array[i][j] == 'bomb') {
-
-                     if (array[i + 1][j + 1] == 'bomb') {
-                         array[i + 1][j + 1] = counter;
-                     } else {
-                         array[i + 1][j + 1] = counter + 1;
-                     }
-                 }
-             }
-         }
-
-         //left-bottom
-         for (let i = 0; i < array.length - 1; i++) {
-             for (let j = 1; j < array.length; j++) {
-                 let counter = array[i + 1][j - 1];
-                 if (array[i][j] == 'bomb') {
-
-                     if (array[i + 1][j - 1] == 'bomb') {
-                         array[i + 1][j - 1] = counter;
-                     } else {
-                         array[i + 1][j - 1] = counter + 1;
-                     }
-                 }
-             }
-         }*/
-
-
-        const grid = document.querySelector('.grid');
-        //gread html
-        for (let i = 0; i < array.length; i++) {
-            for (let j = 0; j < array.length; j++) {
-
-                const divElem = document.createElement('div');
-                divElem.className = 'elem';
-                divElem.innerHTML = array[i][j];
-                grid.append(divElem);
-
-                if (divElem.innerHTML == 1) {
-                    divElem.style.color = 'green';
-                }
-                if (divElem.innerHTML == 2) {
-                    divElem.style.color = 'blue';
-                }
-                if (divElem.innerHTML == 3) {
-                    divElem.style.color = 'red';
-                }
+            if (divElem.innerHTML == 1) {
+                divElem.style.color = 'green';
+            }
+            if (divElem.innerHTML == 2) {
+                divElem.style.color = 'blue';
+            }
+            if (divElem.innerHTML == 3) {
+                divElem.style.color = 'red';
             }
         }
-
-        console.log(array);
-        return array;
-
     }
-
-    function createBomb(array) {
-
-    }
+    return grid;
+}
 
 //console.log(createGrid(3,3));
 //createGrid(10,10);
 
-    document.addEventListener("DOMContentLoaded", createGrid(10, 10));
+document.addEventListener("DOMContentLoaded", createGrid(10, 10, 10));
