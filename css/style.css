@@ -1,0 +1,36 @@
+body {
+    font-size: 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#myform {
+    padding: 10px;
+
+}
+
+.elem {
+    width: 50px;
+    height: 50px;
+    border: 0.1px solid white;
+    position: relative;
+    background: gray;
+    text-align: center;
+
+}
+
+.elem:hover {
+    background: red;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 550px;
+    color: white;
+
+}
