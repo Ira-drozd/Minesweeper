@@ -1,4 +1,4 @@
-function createGrid(row, col, bomb) {
+function createGrid( row, col) {
     let grid = [];
     for (let i = 0; i < row; i++) {
         grid[i] = [];
@@ -21,10 +21,10 @@ function createGrid(row, col, bomb) {
         }
     }
 
-    generateHelp(grid);
-    printGrid(grid);
-    console.log(grid);
-    return grid;
+   generateHelp(grid);
+   printGrid(grid);
+  // console.log(grid);
+   // return grid;
 
 }
 
@@ -136,14 +136,15 @@ function generateHelp(grid) {
 }
 
 function printGrid(grid) {
-    const printgrid = document.querySelector('.grid');
+
+    const printG = document.querySelector('.grid');
     for (let i = 0; i < grid.length; i++) {
         for (let j = 0; j < grid.length; j++) {
 
-            const divElem = document.createElement('div');
-            divElem.className = 'elem';
+            let divElem = document.createElement('div');
+            divElem.classList.add('elem') ;
             divElem.innerHTML = grid[i][j];
-            printgrid.append(divElem);
+            printG.append(divElem);
 
             if (divElem.innerHTML == 1) {
                 divElem.style.color = 'green';
@@ -156,10 +157,36 @@ function printGrid(grid) {
             }
         }
     }
-    return grid;
 }
 
-//console.log(createGrid(3,3));
-//createGrid(10,10);
+/*document.getElementById("button").addEventListener("click", function(){
+    let width = parseInt(document.getElementById("width").value);
+    let height = parseInt(document.getElementById("height").value);
+    createGrid(width, height);
 
-document.addEventListener("DOMContentLoaded", createGrid(10, 10, 10));
+});*/
+
+document.getElementById("button").addEventListener("click", createGrid(10,10));
+
+//document.addEventListener("DOMContentLoaded", createGrid(10, 10));
+
+/*document.getElementById("button").onclick = function(){
+    let width = parseInt(document.getElementById("width").value);
+    let height = parseInt(document.getElementById("height").value);
+   let grid =createGrid(width, height);
+
+}*/
+
+//////////////////
+/*
+function stayFor(){
+        let width = parseInt(document.getElementById("width").value);
+        let height = parseInt(document.getElementById("height").value);
+        let grid =createGrid(width, height);
+}
+
+
+//button.addEventListener("click", stayFor);
+button.onclick=stayFor;
+*/
+
