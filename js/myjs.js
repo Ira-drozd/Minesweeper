@@ -1,4 +1,4 @@
-function createGrid( row, col) {
+function createGrid(row, col) {
     let grid = [];
     for (let i = 0; i < row; i++) {
         grid[i] = [];
@@ -21,9 +21,9 @@ function createGrid( row, col) {
         }
     }
 
-   generateHelp(grid);
-   printGrid(grid);
-  // console.log(grid);
+    generateHelp(grid);
+    printGrid(grid);
+    // console.log(grid);
     return grid;
 
 }
@@ -142,19 +142,20 @@ function printGrid(grid) {
         for (let j = 0; j < grid.length; j++) {
 
             let divElem = document.createElement('div');
-            divElem.classList.add('elem') ;
+            divElem.classList.add('elem');
             divElem.innerHTML = grid[i][j];
             printG.append(divElem);
 
-            if (divElem.innerHTML == 1) {
-                divElem.style.color = 'green';
-            }
-            if (divElem.innerHTML == 2) {
-                divElem.style.color = 'blue';
-            }
-            if (divElem.innerHTML == 3) {
-                divElem.style.color = 'red';
-            }
+
+            /*            if (divElem.innerHTML == 1) {
+                            divElem.style.color = 'green';
+                        }
+                        if (divElem.innerHTML == 2) {
+                            divElem.style.color = 'blue';
+                        }
+                        if (divElem.innerHTML == 3) {
+                            divElem.style.color = 'red';
+                        }*/
         }
 
     }
@@ -170,10 +171,6 @@ function printGrid(grid) {
 
 //document.getElementById("mybutton").addEventListener("click", createGrid(10,10));
 
-document.getElementById("show").addEventListener("click", function(){
-    let grid=document.querySelector('.grid');
-    grid.style.display="none";
-});
 
 //document.addEventListener("DOMContentLoaded", createGrid(10, 10));
 
@@ -185,14 +182,29 @@ document.getElementById("show").addEventListener("click", function(){
 }*/
 
 //////////////////
-function stayFor(){
-        let width = parseInt(document.getElementById("width").value);
-        let height = parseInt(document.getElementById("height").value);
-        let grid =createGrid(width, height);
-       // return false;
+function stayFor() {
+    let width = parseInt(document.getElementById("width").value);
+    let height = parseInt(document.getElementById("height").value);
+    if (width && height) {
+        let grid = createGrid(width, height);
+        document.querySelector(".create-grid").style.display = "none";
+    }
+    // return false;
 }
 
+document.getElementById("create-button").addEventListener("click", stayFor);
 
-//button.addEventListener("click", stayFor);
-document.getElementById("mybutton").onclick=stayFor;
+//document.getElementById("create-button").onclick=stayFor;
+
+function openDiv() {
+    let divElem = document.querySelectorAll(".elem");
+    for (let elem of divElem) {
+        elem.addEventListener("click", function () {
+            elem.style.backgroundColor = "black";
+        });
+
+    }
+
+}
+document.getElementById("create-button").addEventListener("click", openDiv);
 

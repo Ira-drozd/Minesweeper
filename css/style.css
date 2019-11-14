@@ -20,20 +20,20 @@ body {
     //display: inline-block;
    // position: relative;
     background: gray;
-   // text-align: center;
+    text-align: center;
 
 }
 
-.elem:hover {
+/*.elem:hover {
     background: red;
-}
+}*/
 
 
 .grid {
     display: flex;
     flex-wrap: wrap;
     max-width: 550px;
-    color: white;
+    color: gray;
 
 }
 
