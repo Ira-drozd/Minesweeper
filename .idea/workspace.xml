@@ -44,6 +44,11 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\админ\PhpstormProjects\Minesweeper\css\images" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -69,7 +74,7 @@
       <workItem from="1573659203631" duration="29378000" />
       <workItem from="1573693206722" duration="4308000" />
       <workItem from="1573699623590" duration="3073000" />
-      <workItem from="1573742903891" duration="11921000" />
+      <workItem from="1573742903891" duration="27862000" />
     </task>
     <servers />
   </component>

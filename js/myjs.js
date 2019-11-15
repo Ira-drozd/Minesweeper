@@ -146,42 +146,13 @@ function printGrid(grid) {
             divElem.innerHTML = grid[i][j];
             printG.append(divElem);
 
-
-            /*            if (divElem.innerHTML == 1) {
-                            divElem.style.color = 'green';
-                        }
-                        if (divElem.innerHTML == 2) {
-                            divElem.style.color = 'blue';
-                        }
-                        if (divElem.innerHTML == 3) {
-                            divElem.style.color = 'red';
-                        }*/
         }
 
     }
 
 }
 
-/*document.getElementById("mybutton").addEventListener("click", function(){
-    let width = parseInt(document.getElementById("width").value);
-    let height = parseInt(document.getElementById("height").value);
-    createGrid(width, height);
 
-});*/
-
-//document.getElementById("mybutton").addEventListener("click", createGrid(10,10));
-
-
-//document.addEventListener("DOMContentLoaded", createGrid(10, 10));
-
-/*document.getElementById("button").onclick = function(){
-    let width = parseInt(document.getElementById("width").value);
-    let height = parseInt(document.getElementById("height").value);
-   let grid =createGrid(width, height);
-
-}*/
-
-//////////////////
 function stayFor() {
     let width = parseInt(document.getElementById("width").value);
     let height = parseInt(document.getElementById("height").value);
@@ -198,13 +169,57 @@ document.getElementById("create-button").addEventListener("click", stayFor);
 
 function openDiv() {
     let divElem = document.querySelectorAll(".elem");
+    console.log(typeof (divElem));//collection obj set
     for (let elem of divElem) {
+        console.log(typeof (elem));
         elem.addEventListener("click", function () {
-            elem.style.backgroundColor = "black";
+            elem.style.backgroundColor = "#828282";
+            if (elem.innerHTML == 1) {
+                elem.style.color = 'green';
+            }
+            if (elem.innerHTML == 2) {
+                elem.style.color = 'blue';
+            }
+            if (elem.innerHTML == 3) {
+                elem.style.color = 'red';
+            }
+            if (elem.innerHTML=="bomb"){
+                elem.innerHTML="\uD83D\uDCA3";
+                alert("Game over");
+            }
+            if (elem.innerHTML==0){
+                elem.innerHTML=" ";
+                }
+
         });
 
     }
 
 }
-document.getElementById("create-button").addEventListener("click", openDiv);
+
+document.addEventListener("click", openDiv);
+
+
+
+function putFlag() {
+    let divElem = document.querySelectorAll(".elem");
+    /*divElem.addEventListener('contextmenu', e => {
+        e.preventDefault();
+    });*/
+    for (let elem of divElem) {
+
+
+        elem.addEventListener('contextmenu', function () {
+            elem.classList.toggle("elem-flag");
+        });
+
+        elem.addEventListener('contextmenu', e => {
+            e.preventDefault();
+        });
+
+    }
+}
+document.addEventListener('contextmenu',  putFlag);
+
+
 
