@@ -10,7 +10,7 @@ function createGrid(row, col) {
     for (let i = 0; i < grid.length; i++) {
         for (let j = 0; j < grid.length; j++) {
             if (i == j) {
-                grid[i][j] = 'b';
+                grid[i][j] = 'bomb';
                 grid.sort(function () {
                     return Math.random() - 0.5;
                 });
@@ -18,61 +18,24 @@ function createGrid(row, col) {
         }
     }
 
+    // add 0-row-col around
     for (let i = 0; i < grid.length; i++) {
         grid[i].push(0);
         grid[i].unshift(0);
     }
 
-    let nullRow=[];
-    for(let r=0; r<row+2; r++){
-        nullRow[r]=0;
+    let nullRow = [];
+    for (let r = 0; r < row + 2; r++) {
+        nullRow[r] = 0;
     }
     grid.push(nullRow);
     grid.unshift(nullRow);
 
+    generateHelp(grid);
+    printGrid(grid);
     console.log(grid);
-    // generateHelp(grid);
-    //printGrid(grid);
-
     return grid;
-
 }
-
-
-/*
-function createGrid(row, col) {
-    let grid = [];
-    for (let i = 0; i < row; i++) {
-        grid[i] = [];
-        for (let j = 0; j < col; j++) {
-            grid[i][j] =0;
-
-        }
-    }
-
-
-
-    for (let i = 0; i < grid.length; i++) {
-grid[i].push(8);
-        grid[i].unshift(8);
-        for (let j = 0; j < grid.length; j++) {
-
-        }
-    }
-
-    let nullRow=[];
-    for(let r=0; r<row+2; r++){
-        nullRow[r]=0;
-    }
-    grid.push(nullRow);
-    grid.unshift(nullRow);
-
-
-    console.log(grid);
-
-}
-*/
-
 
 /*function createGrid(row, col) {
     let grid = [];
@@ -106,106 +69,23 @@ grid[i].push(8);
 
 function generateHelp(grid) {
 
-    //right
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid.length; j++) {
-            if (grid[i][j] == 'bomb') {
-                let counter;
-                //right
-                if (j + 1 < grid.length) { //&& j-1>-1 && i-1>-1 && i + 1<grid.length
-
-                    counter = grid[i][j + 1];
-                    if (grid[i][j + 1] == 'bomb') {
-                        grid[i][j + 1] = counter;
+    for (let i = 1; i < grid.length - 1; i++) {
+        for (let j = 1; j < grid.length - 1; j++) {
+            let pointsNeighbor = [[i, j + 1], [i, j - 1], [i - 1, j], [i + 1, j], [i - 1, j + 1], [i + 1, j + 1], [i - 1, j - 1], [i + 1, j - 1]];
+            for (let points = 0; points < pointsNeighbor.length; points++) {
+                if (grid[i][j] == 'bomb') {
+                    let counter;
+                    let pRow = pointsNeighbor[points][0];
+                    let pCol = pointsNeighbor[points][1];
+                    counter = grid[pRow][pCol];
+                    if (grid[pRow][pCol] == 'bomb') {
+                        grid[pRow][pCol] = counter;
                     } else {
-                        grid[i][j + 1] = counter + 1;
-                    }
-                    //right-top
-                    if (i - 1 > -1) {
-                        counter = grid[i - 1][j + 1];
-                        if (grid[i][j] == 'bomb') {
-
-                            if (grid[i - 1][j + 1] == 'bomb') {
-                                grid[i - 1][j + 1] = counter;
-                            } else {
-                                grid[i - 1][j + 1] = counter + 1;
-                            }
-                        }
-                    }
-                    //right-bottom
-                    if (i + 1 < grid.length) {
-                        counter = grid[i + 1][j + 1];
-                        if (grid[i][j] == 'bomb') {
-
-                            if (grid[i + 1][j + 1] == 'bomb') {
-                                grid[i + 1][j + 1] = counter;
-                            } else {
-                                grid[i + 1][j + 1] = counter + 1;
-                            }
-                        }
+                        grid[pRow][pCol] = counter + 1;
                     }
                 }
-                //left
-                if (j - 1 > -1) {
-
-                    counter = grid[i][j - 1];
-                    if (grid[i][j - 1] == 'bomb') {
-                        grid[i][j - 1] = counter;
-                    } else {
-                        grid[i][j - 1] = counter + 1;
-                    }
-                    //left-top
-                    if (i - 1 > -1) {
-                        counter = grid[i - 1][j - 1];
-                        if (grid[i][j] == 'bomb') {
-
-                            if (grid[i - 1][j - 1] == 'bomb') {
-                                grid[i - 1][j - 1] = counter;
-                            } else {
-                                grid[i - 1][j - 1] = counter + 1;
-                            }
-                        }
-                    }
-                    //left-bottom
-                    if (i + 1 < grid.length) {
-                        counter = grid[i + 1][j - 1];
-                        if (grid[i][j] == 'bomb') {
-
-                            if (grid[i + 1][j - 1] == 'bomb') {
-                                grid[i + 1][j - 1] = counter;
-                            } else {
-                                grid[i + 1][j - 1] = counter + 1;
-                            }
-                        }
-                    }
-                }
-                //top
-                if (i - 1 > -1) {
-                    counter = grid[i - 1][j];
-                    if (grid[i][j] == 'bomb') {
-
-                        if (grid[i - 1][j] == 'bomb') {
-                            grid[i - 1][j] = counter;
-                        } else {
-                            grid[i - 1][j] = counter + 1;
-                        }
-
-                    }
-                }
-                //bottom
-                if (i + 1 < grid.length) {
-                    counter = grid[i + 1][j];
-                    if (grid[i][j] == 'bomb') {
-
-                        if (grid[i + 1][j] == 'bomb') {
-                            grid[i + 1][j] = counter;
-                        } else {
-                            grid[i + 1][j] = counter + 1;
-                        }
-                    }
-                }
-
             }
+
         }
     }
     return grid;
@@ -321,8 +201,8 @@ function generateHelp(grid) {
 function printGrid(grid) {
     console.log(grid);
     const printG = document.querySelector('.grid');
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid.length; j++) {
+    for (let i = 1; i < grid.length-1; i++) {
+        for (let j = 1; j < grid.length-1; j++) {
 
             let divElem = document.createElement('div');
             divElem.classList.add('elem');
