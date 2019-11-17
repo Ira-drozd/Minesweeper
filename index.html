@@ -17,17 +17,24 @@
 
     <div class="row">
         <div class=col-md-12>
-<div class="create-grid">
-                <label for="width">
+            <div class="create-grid">
+                <!--<label for="width">
                     Width: <input id="width" type="text">
                 </label>
                 <label for="height">
                     Height: <input id="height" type="text">
-                </label>
-                <button type="submit" id="create-button">Create</button>
-</div>
+                </label>-->
 
-            <button type="submit" id="rightclick" oncontextmenu=alert("leftclick")>Click</button>
+                <label>Level of complexity: </label> <select id="complexity">
+                <option value="5">5 X 5</option>
+                <option selected disabled value="10" selected>10 X 10</option>
+                <option value="15">15 X 15</option>
+            </select>
+
+                <button type="submit" id="create-button">Create</button>
+            </div>
+
+            <!--<button type="submit" id="rightclick" oncontextmenu=alert("leftclick")>Click</button>-->
 
         </div>
     </div>

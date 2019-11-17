@@ -199,10 +199,17 @@ function generateHelp(grid) {
 }*/
 
 function printGrid(grid) {
+
+    //
     console.log(grid);
     const printG = document.querySelector('.grid');
-    for (let i = 1; i < grid.length-1; i++) {
-        for (let j = 1; j < grid.length-1; j++) {
+    for (let i = 1; i < grid.length - 1; i++) {
+        for (let j = 1; j < grid.length - 1; j++) {
+//from width
+            let countRow = grid.length - 2;
+            let widthGrid = countRow * (50 + 0.1 * 2);
+            printG.style.width = widthGrid + "px";
+
 
             let divElem = document.createElement('div');
             divElem.classList.add('elem');
@@ -217,18 +224,17 @@ function printGrid(grid) {
 
 
 function stayFor() {
-    let width = parseInt(document.getElementById("width").value);
-    let height = parseInt(document.getElementById("height").value);
-    //if (width && height) {
-    let grid = createGrid(10, 10);//!!!!!!!!!!
-    document.querySelector(".create-grid").style.display = "none";
-    // }
+    /*let width = parseInt(document.getElementById("width").value);
+    let height = parseInt(document.getElementById("height").value);*/
+    let complexity = parseInt(document.getElementById("complexity").value);
+    if (complexity) {
+        createGrid(complexity, complexity);
+        document.querySelector(".create-grid").style.display = "none";
+    }
     // return false;
 }
 
 document.getElementById("create-button").addEventListener("click", stayFor);
-
-//document.getElementById("create-button").onclick=stayFor;
 
 function openDiv() {
     let divElem = document.querySelectorAll(".elem");
@@ -253,11 +259,8 @@ function openDiv() {
             if (elem.innerHTML == 0) {
                 elem.innerHTML = " ";
             }
-
         });
-
     }
-
 }
 
 document.addEventListener("click", openDiv);
@@ -265,24 +268,16 @@ document.addEventListener("click", openDiv);
 
 function putFlag() {
     let divElem = document.querySelectorAll(".elem");
-    /*divElem.addEventListener('contextmenu', e => {
-        e.preventDefault();
-    });*/
     for (let elem of divElem) {
-
-
         elem.addEventListener('contextmenu', function () {
+
             elem.classList.toggle("elem-flag");
         });
-
-        elem.addEventListener('contextmenu', e => {
-            e.preventDefault();
-        });
-
     }
 }
 
-document.addEventListener('contextmenu', putFlag);
 
-
-
+document.addEventListener('contextmenu', e => {
+    e.preventDefault();
+    putFlag();
+});

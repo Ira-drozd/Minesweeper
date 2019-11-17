@@ -21,7 +21,7 @@ body {
     justify-content:center;
     align-items:center;
     background: #4d4646;
-    //user-select: none;
+    user-select: none;
 }
 .elem-flag{
  background-image: url("images/bigflag.png");
@@ -37,7 +37,7 @@ body {
 .grid {
     display: flex;
     flex-wrap: wrap;
-    max-width: 550px;
+    /*width: 502px;*/
     color: #4d4646;
 
 }
