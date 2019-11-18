@@ -1,5 +1,8 @@
+// create zero array
+
 function createGrid(row, col) {
     let grid = [];
+
     for (let i = 0; i < row; i++) {
         grid[i] = [];
         for (let j = 0; j < col; j++) {
@@ -7,223 +10,105 @@ function createGrid(row, col) {
         }
     }
 
+//add expansion function
+
+    createMines(grid);
+    expansionGrid(grid);
+    generateNeighbors(grid);
+    displayGrid(grid);
+    console.log(grid);
+    return grid;
+}
+
+//create and random mines
+
+function createMines(grid) {
     for (let i = 0; i < grid.length; i++) {
         for (let j = 0; j < grid.length; j++) {
             if (i == j) {
                 grid[i][j] = 'bomb';
-                grid.sort(function () {
-                    return Math.random() - 0.5;
-                });
             }
+
+            for (let i = grid.length - 1; i > 0; i--) {
+                let randomIndex = Math.floor(Math.random() * (i + 1));
+                let randomElement = grid[randomIndex];
+                grid[randomIndex] = grid[i];
+                grid[i] = randomElement;
+            }
+
         }
     }
+    return grid;
+}
 
-    // add 0-row-col around
+// expansion grid (add 0-row-col around) to search for neighbors
+
+function expansionGrid(grid) {
+    let nullRow = [];
+
     for (let i = 0; i < grid.length; i++) {
         grid[i].push(0);
         grid[i].unshift(0);
     }
-
-    let nullRow = [];
-    for (let r = 0; r < row + 2; r++) {
-        nullRow[r] = 0;
+    for (let j = 0; j < grid.length + 2; j++) {
+        nullRow[j] = 0;
     }
     grid.push(nullRow);
     grid.unshift(nullRow);
 
-    generateHelp(grid);
-    printGrid(grid);
-    console.log(grid);
     return grid;
 }
 
-/*function createGrid(row, col) {
-    let grid = [];
-    for (let i = 0; i < row; i++) {
-        grid[i] = [];
-        for (let j = 0; j < col; j++) {
+// create neighbors-counter
 
-            grid[i][j] = 0;
-
-        }
-    }
-
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid.length; j++) {
-            if (i == j) {
-                grid[i][j] = 'bomb';
-                grid.sort(function () {
-                    return Math.random() - 0.5;
-                });
-            }
-
-        }
-    }
-
-    generateHelp(grid);
-    printGrid(grid);
-    // console.log(grid);
-    return grid;
-
-}*/
-
-function generateHelp(grid) {
+function generateNeighbors(grid) {
 
     for (let i = 1; i < grid.length - 1; i++) {
         for (let j = 1; j < grid.length - 1; j++) {
-            let pointsNeighbor = [[i, j + 1], [i, j - 1], [i - 1, j], [i + 1, j], [i - 1, j + 1], [i + 1, j + 1], [i - 1, j - 1], [i + 1, j - 1]];
-            for (let points = 0; points < pointsNeighbor.length; points++) {
+
+            let arrayNeighbor = [[i, j + 1], [i, j - 1], [i - 1, j], [i + 1, j], [i - 1, j + 1], [i + 1, j + 1], [i - 1, j - 1], [i + 1, j - 1]];
+            for (let subarrayNeighbor = 0; subarrayNeighbor < arrayNeighbor.length; subarrayNeighbor++) {
+
                 if (grid[i][j] == 'bomb') {
-                    let counter;
-                    let pRow = pointsNeighbor[points][0];
-                    let pCol = pointsNeighbor[points][1];
-                    counter = grid[pRow][pCol];
-                    if (grid[pRow][pCol] == 'bomb') {
-                        grid[pRow][pCol] = counter;
+
+                    let neighborRow = arrayNeighbor[subarrayNeighbor][0];
+                    let neighborCol = arrayNeighbor[subarrayNeighbor][1];
+
+                    let counter = grid[neighborRow][neighborCol];
+                    if (grid[neighborRow][neighborCol] == 'bomb') {
+                        grid[neighborRow][neighborCol] = counter;
                     } else {
-                        grid[pRow][pCol] = counter + 1;
+                        grid[neighborRow][neighborCol] = counter + 1;
                     }
                 }
             }
-
         }
     }
     return grid;
 }
 
-/*function generateHelp(grid) {
+// display finished grid
 
-    //right
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid.length; j++) {
-            if (grid[i][j] == 'bomb') {
-                let counter;
-                //right
-                if (j + 1 < grid.length) { //&& j-1>-1 && i-1>-1 && i + 1<grid.length
+function displayGrid(grid) {
+    const elementGrid = document.querySelector('.grid');
+    const countRow = grid.length - 2;
+    const widthGrid = countRow * 50.2 + "px";
 
-                    counter = grid[i][j + 1];
-                    if (grid[i][j + 1] == 'bomb') {
-                        grid[i][j + 1] = counter;
-                    } else {
-                        grid[i][j + 1] = counter + 1;
-                    }
-                    //right-top
-                    if (i - 1 > -1) {
-                        counter = grid[i - 1][j + 1];
-                        if (grid[i][j] == 'bomb') {
-
-                            if (grid[i - 1][j + 1] == 'bomb') {
-                                grid[i - 1][j + 1] = counter;
-                            } else {
-                                grid[i - 1][j + 1] = counter + 1;
-                            }
-                        }
-                    }
-                    //right-bottom
-                    if (i + 1 < grid.length) {
-                        counter = grid[i + 1][j + 1];
-                        if (grid[i][j] == 'bomb') {
-
-                            if (grid[i + 1][j + 1] == 'bomb') {
-                                grid[i + 1][j + 1] = counter;
-                            } else {
-                                grid[i + 1][j + 1] = counter + 1;
-                            }
-                        }
-                    }
-                }
-                //left
-                if (j - 1 > -1) {
-
-                    counter = grid[i][j - 1];
-                    if (grid[i][j - 1] == 'bomb') {
-                        grid[i][j - 1] = counter;
-                    } else {
-                        grid[i][j - 1] = counter + 1;
-                    }
-                    //left-top
-                    if (i - 1 > -1) {
-                        counter = grid[i - 1][j - 1];
-                        if (grid[i][j] == 'bomb') {
-
-                            if (grid[i - 1][j - 1] == 'bomb') {
-                                grid[i - 1][j - 1] = counter;
-                            } else {
-                                grid[i - 1][j - 1] = counter + 1;
-                            }
-                        }
-                    }
-                    //left-bottom
-                    if (i + 1 < grid.length) {
-                        counter = grid[i + 1][j - 1];
-                        if (grid[i][j] == 'bomb') {
-
-                            if (grid[i + 1][j - 1] == 'bomb') {
-                                grid[i + 1][j - 1] = counter;
-                            } else {
-                                grid[i + 1][j - 1] = counter + 1;
-                            }
-                        }
-                    }
-                }
-                //top
-                if (i - 1 > -1) {
-                    counter = grid[i - 1][j];
-                    if (grid[i][j] == 'bomb') {
-
-                        if (grid[i - 1][j] == 'bomb') {
-                            grid[i - 1][j] = counter;
-                        } else {
-                            grid[i - 1][j] = counter + 1;
-                        }
-
-                    }
-                }
-                //bottom
-                if (i + 1 < grid.length) {
-                    counter = grid[i + 1][j];
-                    if (grid[i][j] == 'bomb') {
-
-                        if (grid[i + 1][j] == 'bomb') {
-                            grid[i + 1][j] = counter;
-                        } else {
-                            grid[i + 1][j] = counter + 1;
-                        }
-                    }
-                }
-
-            }
-        }
-    }
-    return grid;
-}*/
-
-function printGrid(grid) {
-
-    //
-    console.log(grid);
-    const printG = document.querySelector('.grid');
     for (let i = 1; i < grid.length - 1; i++) {
         for (let j = 1; j < grid.length - 1; j++) {
-//from width
-            let countRow = grid.length - 2;
-            let widthGrid = countRow * (50 + 0.1 * 2);
-            printG.style.width = widthGrid + "px";
-
-
+//from width grid
+            elementGrid.style.width = widthGrid;
             let divElem = document.createElement('div');
             divElem.classList.add('elem');
             divElem.innerHTML = grid[i][j];
-            printG.append(divElem);
-
+            elementGrid.append(divElem);
         }
-
     }
-
 }
 
+// get dimension grid
 
-function stayFor() {
+function getSizeGrid() {
     /*let width = parseInt(document.getElementById("width").value);
     let height = parseInt(document.getElementById("height").value);*/
     let complexity = parseInt(document.getElementById("complexity").value);
@@ -231,12 +116,13 @@ function stayFor() {
         createGrid(complexity, complexity);
         document.querySelector(".create-grid").style.display = "none";
     }
-    // return false;
 }
 
-document.getElementById("create-button").addEventListener("click", stayFor);
+document.getElementById("create-button").addEventListener("click", getSizeGrid);
 
-function openDiv() {
+// open div-element in grid
+
+function openCells() {
     let divElem = document.querySelectorAll(".elem");
     //  console.log(typeof (divElem));//collection obj set
     for (let elem of divElem) {
@@ -263,10 +149,11 @@ function openDiv() {
     }
 }
 
-document.addEventListener("click", openDiv);
+document.addEventListener("click", openCells);
 
+//create toggle flags
 
-function putFlag() {
+function toggleFlag() {
     let divElem = document.querySelectorAll(".elem");
     for (let elem of divElem) {
         elem.addEventListener('contextmenu', function () {
@@ -276,8 +163,9 @@ function putFlag() {
     }
 }
 
+//cancel default contextmenu
 
 document.addEventListener('contextmenu', e => {
     e.preventDefault();
-    putFlag();
+    toggleFlag();
 });
