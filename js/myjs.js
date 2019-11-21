@@ -102,6 +102,7 @@ function displayGrid(grid) {
             divElem.classList.add('elem');
             divElem.innerHTML = grid[i][j];
             elementGrid.append(divElem);
+
         }
     }
 }
@@ -124,8 +125,29 @@ document.getElementById("create-button").addEventListener("click", getSizeGrid);
 
 function openCells() {
     let divElem = document.querySelectorAll(".elem");
+    let grid=document.querySelector(".grid");
+    let elements = grid.getElementsByTagName('*');
     //  console.log(typeof (divElem));//collection obj set
-    for (let elem of divElem) {
+
+    /*grid.onclick=function (event) {
+        let target=event.target;
+        target.style.backgroundColor = "#828282";
+    }*/
+
+    for(let i=0; i<elements.length; i++) {
+        elements[i].onclick = function () {
+
+            if (elements[i].innerHTML == "0") {
+                elements[i].style.backgroundColor = "red";
+                elements[i + 1].style.backgroundColor = "red";
+                elements[i - 1].style.backgroundColor = "red";
+            }
+
+        }
+    }
+
+
+    /*for (let elem of divElem) {
         //   console.log(typeof (elem));
         elem.addEventListener("click", function () {
             elem.style.backgroundColor = "#828282";
@@ -146,10 +168,11 @@ function openCells() {
                 elem.innerHTML = " ";
             }
         });
-    }
+    }*/
 }
 
 document.addEventListener("click", openCells);
+
 
 //create toggle flags
 
