@@ -136,11 +136,24 @@ function openCells() {
 
     for(let i=0; i<elements.length; i++) {
         elements[i].onclick = function () {
-
+            elements[i].style.backgroundColor = "#828282";
             if (elements[i].innerHTML == "0") {
-                elements[i].style.backgroundColor = "red";
-                elements[i + 1].style.backgroundColor = "red";
-                elements[i - 1].style.backgroundColor = "red";
+                elements[i].style.backgroundColor = "#828282";
+                elements[i + 1].style.backgroundColor = "#828282";
+                elements[i - 1].style.backgroundColor = "#828282";
+            }
+            if (elements[i].innerHTML == 1) {
+                elements[i].style.color = 'green';
+            }
+            if (elements[i].innerHTML == 2) {
+                elements[i].style.color = 'blue';
+            }
+            if (elements[i].innerHTML == 3) {
+                elements[i].style.color = 'red';
+            }
+            if (elements[i].innerHTML == "bomb") {
+                elements[i].innerHTML = "\uD83D\uDCA3";
+                alert("Game over");
             }
 
         }
